@@ -22,14 +22,9 @@ public class ProductController {
         return ResponseEntity.ok(productService.saveProduct(productDTO));
     }
 
-    @GetMapping("/list-products")
-    public ResponseEntity<List<ProductDTO>> getProducts() {
-        return ResponseEntity.ok(productService.getProducts());
-    }
-
-    @GetMapping("/product-by-name/{name}")
-    public ResponseEntity<ProductDTO> getProductByName(@PathVariable(name = "name") String productName) {
-        return ResponseEntity.ok(productService.getProductByName(productName));
+    @PostMapping("/save-products")
+    public ResponseEntity<List<ProductDTO>> saveProducts(@RequestBody List<ProductDTO> productDTOS) {
+        return ResponseEntity.ok(productService.saveProducts(productDTOS));
     }
 
     @PutMapping("/update-product-info")
@@ -37,14 +32,29 @@ public class ProductController {
         return ResponseEntity.ok(productService.updateProductInfo(productDTO));
     }
 
+    @GetMapping("/list-products")
+    public ResponseEntity<List<ProductDTO>> getProducts() {
+        return ResponseEntity.ok(productService.getProducts());
+    }
+
     @GetMapping("/product-by-id/{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable(name = "id") long productId) {
         return ResponseEntity.ok(productService.getProductById(productId));
     }
 
+    @GetMapping("/product-by-name/{name}")
+    public ResponseEntity<ProductDTO> getProductByName(@PathVariable(name = "name") String productName) {
+        return ResponseEntity.ok(productService.getProductByName(productName));
+    }
+
     @DeleteMapping("/remove-product/{id}")
     public ResponseEntity<String> removeProductById(@PathVariable(name = "id") long productId) {
         return ResponseEntity.ok(productService.removeProductById(productId));
+    }
+
+    @GetMapping("/sort-products/{fieldName}")
+    public ResponseEntity<List<ProductDTO>> sortProducts(@PathVariable String fieldName) {
+        return ResponseEntity.ok(productService.sortProducts(fieldName));
     }
 
 

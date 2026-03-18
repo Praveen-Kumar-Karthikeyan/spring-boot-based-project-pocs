@@ -3,6 +3,7 @@ package com.praveen.crud.operations.service;
 import com.praveen.crud.operations.dto.ProductDTO;
 import com.praveen.crud.operations.entity.Product;
 import com.praveen.crud.operations.repo.ProductRepo;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,12 @@ public class ProductService {
 
     public ProductDTO saveProduct(ProductDTO productDTO) {
         return getProductDTO(productRepo.save(getProduct(productDTO)));
+    }
+
+    public List<ProductDTO> saveProducts(List<ProductDTO> productDTOS) {
+        return productRepo.saveAll(
+                productDTOS.stream().map(this::getProduct).toList()
+        ).stream().map(this::getProductDTO).toList();
     }
 
     public List<ProductDTO> getProducts() {
@@ -66,5 +73,10 @@ public class ProductService {
         return productRepo.existsById(productId) ?
                 "Product with an Id as " + productId + "not removed successfully Please try again"
                 : "Product with an Id as " + productId + "removed successfully";
+    }
+
+    public List<ProductDTO> sortProducts(String fieldName) {
+        return productRepo.findAll(Sort.by(fieldName).descending()).stream()
+                .map(this::getProductDTO).toList();
     }
 }
